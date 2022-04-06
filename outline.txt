@@ -2,3 +2,9 @@ java passes args to python script via terminal
 java runs python script via processbuilder
 python script runs calculations w numpy and writes output to a txt file
 java reads output from a txt file and displays w graphics
+
+----------------------------------------------------
+java only:
+use simpsons' approximation for elementary functions
+for bounds with +/- infty, do summation, adding small steps
+when amnt being added gets smaller than some value, converges
