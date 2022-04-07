@@ -18,8 +18,6 @@ public class SOFEquation {
         // vars.put("y", 1);
         // vars.put("z", 3);
         // System.out.println("result = "+engine.eval("x + y + z", new SimpleBindings(vars)));
-
-
         //---------------------------------------
         System.out.println(eval("pi(0)"));
         Scanner scan = new Scanner(System.in);

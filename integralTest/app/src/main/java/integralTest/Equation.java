@@ -5,7 +5,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class Equation {
-
+    
     public Equation(String input){
         //need to take string input such as "e^2" and turn it into a usable
         //equation java can calculate, such as e**2
