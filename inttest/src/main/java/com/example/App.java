@@ -12,24 +12,24 @@ public class App
 {
     public static void main( String[] args )
     {
-        DoubleEvaluator e = new DoubleEvaluator();
-        String expression = "x^2";
-        String simp;
-        Scanner scan = new Scanner(System.in);
-        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-        double a = 0;
-        double b = 10;
-        variables.set("x", a);
-        double f_a = e.evaluate(expression, variables);
-        
-        variables.set("x", b);
-        double f_b = e.evaluate(expression, variables);
-        
-        
-        print(linspace(0,100,21));
-        
+        String expression = "e^x";
+        System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
+//        DoubleEvaluator e = new DoubleEvaluator();
+//       
+//        String simp;
+//        Scanner scan = new Scanner(System.in);
+//        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
+//        double a = 0;
+//        double b = 10;
+//        variables.set("x", a);
+//        double f_a = e.evaluate(expression, variables);
+//        
+//        variables.set("x", b);
+//        double f_b = e.evaluate(expression, variables);
         
         
+//        print(linspace(0,100,21));
+      
     }
     
     static double sum(double[] arr){
@@ -43,12 +43,14 @@ public class App
         for (double i:arr){
             System.out.print(" " + i);
         }
+        System.out.println();
     }
     
     static void print(int[] arr){
         for (int i:arr){
             System.out.print(" " + i);
         }
+        System.out.println();
     }
     
     static int[] makeCoeff(int n) throws InvalidNException{
@@ -68,25 +70,33 @@ public class App
             throw new InvalidNException("N must be an even number");
         }
         //simpson's approximation
-        
-        
     }
     
-    static void simpsons(String expr, int n, double lower, double upper) {
+    static double simpsons(String expr, double lower, double upper, int n) throws InvalidNException{
         try {
             int[] coeff = makeCoeff(n);
             double[] xVals = linspace(lower,upper,n+1);
             
-            print(xVals);
-            print(coeff);
+//            print(xVals);
+//            print(coeff);
+//            
+            double dx = (upper - lower) / n;            
             
-            double dx = (upper - lower) / n;
+            
+            DoubleEvaluator ev = new DoubleEvaluator();
+            StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
+        
+            double f_x;
             double sum = 0;
             for (int i = 0; i<n; i++){
-                sum+=
+                variables.set("x", xVals[i]); //set value of x to xVal array at index i
+                f_x = ev.evaluate(expr, variables);
+                sum+= f_x*coeff[i]*dx/3;
             }
+            return sum;
         } catch (InvalidNException e) {
             System.err.println(e.getMessage());
+            throw e;
         }
     }
     
