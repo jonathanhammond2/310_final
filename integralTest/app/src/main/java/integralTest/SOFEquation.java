@@ -1,10 +1,26 @@
 package integralTest;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 
 public class SOFEquation {
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws ScriptException{
+        // ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
+        // Map<String, Object> vars = new HashMap<String, Object>();
+        // vars.put("x", 2);
+        // vars.put("y", 1);
+        // vars.put("z", 3);
+        // System.out.println("result = "+engine.eval("x + y + z", new SimpleBindings(vars)));
+
+
+        //---------------------------------------
         System.out.println(eval("pi(0)"));
         Scanner scan = new Scanner(System.in);
 
@@ -17,7 +33,7 @@ public class SOFEquation {
         func = scan.nextLine();
         f(func,10); 
         System.out.println("Simpson's approximation: " + 
-        simpInt(func,0,1000000));
+        simpInt(func,1,1000000));
        
         while(true){
             try{
@@ -25,7 +41,7 @@ public class SOFEquation {
                 func = scan.nextLine();
                 // f(func,10); 
                 System.out.println("Simpson's approximation: " +
-                simpInt(func,0,Double.POSITIVE_INFINITY));
+                simpInt(func,1,1000000000));
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -135,6 +151,8 @@ public class SOFEquation {
                     else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
                     else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
                     else if (func.equals("arccos")) x = Math.acos(Math.toRadians(x));
+                    else if (func.equals("arcsin")) x = Math.asin(Math.toRadians(x));
+                    else if (func.equals("arctan")) x = Math.atan(Math.toRadians(x));
                     else if (func.equals("log")) x = Math.log10(x);
                     else if (func.equals("ln")) x = Math.log(x);
                     else if (func.equals("pi")) x = Math.PI; //need to add support for pi and e
