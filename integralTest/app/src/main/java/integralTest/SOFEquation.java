@@ -1,17 +1,14 @@
 package integralTest;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.script.SimpleBindings;
+
 
 public class SOFEquation {
     
     public static void main(String[] args) throws ScriptException{
+        // SnuggleEngine s = new SnuggleEngine();
         // ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
         // Map<String, Object> vars = new HashMap<String, Object>();
         // vars.put("x", 2);
@@ -19,6 +16,7 @@ public class SOFEquation {
         // vars.put("z", 3);
         // System.out.println("result = "+engine.eval("x + y + z", new SimpleBindings(vars)));
         //---------------------------------------
+        DoubleEvaluator eval = new DoubleEvaluator();
         System.out.println(eval("pi(0)"));
         Scanner scan = new Scanner(System.in);
 
