@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class App 
 {
     public static void main( String[] args )
-    {
+    {   
         String expression = "e^x";
         System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
 //        DoubleEvaluator e = new DoubleEvaluator();
@@ -115,4 +115,29 @@ public class App
         super(message);
         }
     }
+    
+    private static class binom_dist{
+        private static int n;
+        private static double p;
+        binom_dist(int n, double p) throws IllegalArgumentException{
+            if (n<=0)
+                throw new IllegalArgumentException("n must be greater than 0");
+            if (p<0||p>1)
+                throw new IllegalArgumentException("p must be between 1 and 0");
+        }
+        static double Exp(){
+            return n*p;
+        }
+        static double Var(){
+            return n*p*(1-p);
+        }
+    }
+    
+    
+//        if (n<=0)
+//            throw new IllegalArgumentException("n must be greater than 0");
+//        if (p<0||p>1)
+//            throw new IllegalArgumentException("p must be between 1 and 0");
+        
+//        return n*p;
 }
