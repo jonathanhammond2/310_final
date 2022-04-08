@@ -17,24 +17,10 @@ public class App
         System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
         binom_dist b = new binom_dist(20,.5);
         System.out.println("probability of 2 successes in 20 trials: " + binom_dist.npickk(20,2));
-        System.out.println(b.pmf(10));
-        System.out.println(b.cdf(10));
-//        System.out.println(fac(5));
-//        DoubleEvaluator e = new DoubleEvaluator();
-//       
-//        String simp;
-//        Scanner scan = new Scanner(System.in);
-//        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-//        double a = 0;
-//        double b = 10;
-//        variables.set("x", a);
-//        double f_a = e.evaluate(expression, variables);
-//        
-//        variables.set("x", b);
-//        double f_b = e.evaluate(expression, variables);
-        
-        
-//        print(linspace(0,100,21));
+        System.out.println("binom pmf k = 10: " + b.pmf(10));
+        System.out.println("binom cdf k <= 10: " + b.cdf(10));
+        System.out.println("norm pdf mu = 0, sigma = 1, x = 10: " + normpdf(10, 0, 1));
+        System.out.println("normcdf(0,0,1): " + normcdf(0,0,1));
       
     }
     
@@ -130,8 +116,20 @@ public class App
         }
     }
     
-    static double binompdf(double lower, double upper, double mu, double sigma){
-        return (1/((sigma*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(mu, mu)));
+    static double normpdf(double x, double mu, double sigma){
+        return (1/((sigma*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(x-mu, 2)/(2*Math.pow(sigma,2))));
+    }
+
+    static double normcdf(double x, double mu, double sigma){
+        double result = 0;
+        for (int k = 0; k<21;k++){
+            result += Math.pow(-1,k)*Math.pow(x,2*k+1)/(Math.pow(2,k)*fac(k)*(2*k+1));
+        }
+
+
+        return (2/(Math.pow(2*Math.PI, 1/2)) * simpsons("e^((-(x-" + mu + ")^2)/(2 * " + sigma + "^2))",
+                                                                                    -100,x, 100));
+        // return .5+1/Math.pow(2*Math.PI, .5) + result;
     }
     
 //    private static class norm_dist{
