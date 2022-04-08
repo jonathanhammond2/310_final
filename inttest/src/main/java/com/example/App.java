@@ -2,6 +2,7 @@ package com.example;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.fathzer.soft.javaluator.StaticVariableSet;
+import java.math.BigInteger;
 import java.util.Scanner;
 
 /**
@@ -14,6 +15,11 @@ public class App
     {   
         String expression = "e^x";
         System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
+        binom_dist b = new binom_dist(20,.5);
+        System.out.println("probability of 2 successes in 20 trials: " + binom_dist.npickk(20,2));
+        System.out.println(b.pmf(10));
+        System.out.println(b.cdf(10));
+//        System.out.println(fac(5));
 //        DoubleEvaluator e = new DoubleEvaluator();
 //       
 //        String simp;
@@ -110,28 +116,99 @@ public class App
         return arr;
     }
     
+    static BigInteger fac(BigInteger n){
+        return Factorial.bang(n);
+    }
+    
+    static long fac(long n){
+        return Factorial.bang(n);
+    }
+    
     private static class InvalidNException extends RuntimeException {
         InvalidNException(String message) {
         super(message);
         }
     }
     
+    static double binompdf(double lower, double upper, double mu, double sigma){
+        return (1/((sigma*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(mu, mu)));
+    }
+    
+//    private static class norm_dist{
+//        private double mu;
+//        private double var;
+//        
+//    }
+    
     private static class binom_dist{
-        private static int n;
-        private static double p;
+        private int n;
+        private double p;
         binom_dist(int n, double p) throws IllegalArgumentException{
+            checkBounds(n,1,p);
+            this.p = p;
+            this.n = n;
+        }
+        
+        static void checkBounds(int n, int k, double p){
             if (n<=0)
                 throw new IllegalArgumentException("n must be greater than 0");
             if (p<0||p>1)
                 throw new IllegalArgumentException("p must be between 1 and 0");
+            if (k<0){
+                throw new IllegalArgumentException("k must be greater than 0");
+            }
+            if (k>n){
+//                throw new IllegalArgumentException("k must be less than or equal to n");
+            }
         }
-        static double Exp(){
+        
+        static double pmf(int n, int k, double p){
+            checkBounds(n,k,p);
+            return npickk(n,k)*Math.pow(p, k)*Math.pow((1-p),(n-k));
+        }
+        double pmf(int k){
+            checkBounds(n,k,p);
+            return npickk(n,k)*Math.pow(p, k)*Math.pow((1-p),(n-k));
+        }
+        
+        static double cdf(int k, int n, double p){
+            checkBounds(k,n,p);
+            double result = 0;
+            for(int i=0;i<=k;i++){
+                result+=npickk(n,i)*Math.pow(p,i)*Math.pow(1-p,n-i);
+            }
+            return result;
+        }
+        double cdf(int k){
+            checkBounds(n,k,p);
+            double result = 0;
+            for(int i=0;i<=k;i++){
+                result+= npickk(n,i)*Math.pow(p,i)*Math.pow(1-p,n-i);
+            }
+            return result;
+        }
+        
+        static long npickk(long n, long k){
+            if (k==0)
+                return 1;
+            if (n==0)
+                return 0;
+            BigInteger N = BigInteger.valueOf(n);
+            BigInteger K = BigInteger.valueOf(k);
+//            BigInteger denom = fac(K).multiply(fac(N.subtract(K)));
+            return fac(N).divide(fac(K).multiply(fac(N.subtract(K)))).longValueExact();
+//            return fac(N).divide(denom).doubleValue();
+//            return fac(n)/(fac(k)*fac(n-k));
+        }
+        double Exp(){
             return n*p;
         }
-        static double Var(){
+        double Var(){
             return n*p*(1-p);
         }
     }
+    
+    
     
     
 //        if (n<=0)
