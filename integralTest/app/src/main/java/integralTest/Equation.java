@@ -1,8 +1,8 @@
 package integralTest;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+// import javax.script.ScriptEngine;
+// import javax.script.ScriptEngineManager;
+// import javax.script.ScriptException;
 
 public class Equation {
     
@@ -19,14 +19,13 @@ public class Equation {
         //Ex. (6x^2 + 8)/4 will split (6x^2 + 8) and /4 
         //but first we need a simple arithmetic calculator
         double result = 0;
-        char prevChar = ' ';
         char nextChar = ' ';
         char[] c = input.toCharArray();
         result = c[0];
         for (int i=0;i<input.length(); i++){
-            if (i==0)
-                prevChar = ' ';
-            else prevChar = c[i-1];
+            if (i==0) {
+            } else {
+            }
             if (i==(input.length()-1))
                 nextChar = ' ';
             else nextChar = c[i+1];

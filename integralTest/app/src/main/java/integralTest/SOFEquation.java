@@ -16,7 +16,7 @@ public class SOFEquation {
         // vars.put("z", 3);
         // System.out.println("result = "+engine.eval("x + y + z", new SimpleBindings(vars)));
         //---------------------------------------
-        DoubleEvaluator eval = new DoubleEvaluator();
+        // DoubleEvaluator eval = new DoubleEvaluator();
         System.out.println(eval("pi(0)"));
         Scanner scan = new Scanner(System.in);
 
@@ -30,8 +30,8 @@ public class SOFEquation {
         f(func,10); 
         System.out.println("Simpson's approximation: " + 
         simpInt(func,1,1000000));
-       
-        while(true){
+       int i = 0;
+        while(i<10000){
             try{
                 // System.out.println(eval(scan.nextLine()));
                 func = scan.nextLine();
@@ -45,7 +45,7 @@ public class SOFEquation {
             }
         }
 
-       
+       scan.close();
 
         //for integral, need to take expression with 'x' in it and plug a value into it
         //f(x) = cos(x)|0 = f(0) = cos(0)

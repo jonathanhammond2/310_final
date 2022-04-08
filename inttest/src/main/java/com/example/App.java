@@ -3,7 +3,7 @@ package com.example;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.fathzer.soft.javaluator.StaticVariableSet;
 import java.math.BigInteger;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 /**
  * Hello world!
