@@ -1,0 +1,6 @@
+com\mycompany\integralcalculatorgui\Simpsons.class
+com\mycompany\integralcalculatorgui\App.class
+com\mycompany\integralcalculatorgui\Simpsons$InvalidNException.class
+module-info.class
+com\mycompany\integralcalculatorgui\SystemInfo.class
+com\mycompany\integralcalculatorgui\Simpsons$binom_dist.class

@@ -1,59 +1,38 @@
-package com.example;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.integralcalculatorgui;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.fathzer.soft.javaluator.StaticVariableSet;
-import java.util.Scanner;
-
 /**
- * Hello world!
  *
+ * @author abw04
  */
-public class App 
-{
-    public static void main( String[] args )
-    {   
-        String expression = "e^x";
-        System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
-//        DoubleEvaluator e = new DoubleEvaluator();
-//       
-//        String simp;
-//        Scanner scan = new Scanner(System.in);
-//        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-//        double a = 0;
-//        double b = 10;
-//        variables.set("x", a);
-//        double f_a = e.evaluate(expression, variables);
-//        
-//        variables.set("x", b);
-//        double f_b = e.evaluate(expression, variables);
-        
-        
-//        print(linspace(0,100,21));
-      
-    }
-    
-    static double sum(double[] arr){
+public class Simpsons {
+    public static double sum(double[] arr){
         double sum = 0;
         for (double i:arr)
             sum +=i;
         return sum;
     }
     
-    static void print(double[] arr){
+    public static void print(double[] arr){
         for (double i:arr){
             System.out.print(" " + i);
         }
         System.out.println();
     }
     
-    static void print(int[] arr){
+    public static void print(int[] arr){
         for (int i:arr){
             System.out.print(" " + i);
         }
         System.out.println();
     }
     
-    static int[] makeCoeff(int n) throws InvalidNException{
+    public static int[] makeCoeff(int n) throws InvalidNException{
         if (n % 2 == 0) {
             int[] coeff = new int[n];
             coeff[0] = 1;
@@ -72,7 +51,7 @@ public class App
         //simpson's approximation
     }
     
-    static double simpsons(String expr, double lower, double upper, int n) throws InvalidNException{
+    public static double simpsons(String expr, double lower, double upper, int n) throws InvalidNException{
         try {
             int[] coeff = makeCoeff(n);
             double[] xVals = linspace(lower,upper,n+1);
@@ -100,7 +79,7 @@ public class App
         }
     }
     
-    static double[] linspace(double a,double b,int n){
+    public static double[] linspace(double a,double b,int n){
         double[] arr = new double[n];
         arr[0] = a;
         arr[n-1] = b;
@@ -132,12 +111,4 @@ public class App
             return n*p*(1-p);
         }
     }
-    
-    
-//        if (n<=0)
-//            throw new IllegalArgumentException("n must be greater than 0");
-//        if (p<0||p>1)
-//            throw new IllegalArgumentException("p must be between 1 and 0");
-        
-//        return n*p;
 }
