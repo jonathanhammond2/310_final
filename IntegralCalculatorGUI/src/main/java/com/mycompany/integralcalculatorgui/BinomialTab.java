@@ -4,10 +4,15 @@
  */
 package com.mycompany.integralcalculatorgui;
 
+import javafx.scene.control.Tab;
+
 /**
  *
  * @author abw04
  */
-public class BinomialTab {
+public class BinomialTab extends Tab{
     
+    BinomialTab(String title) {
+        super(title);
+    }
 }
