@@ -1,64 +1,41 @@
-package com.example;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.integralcalculatorgui;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.fathzer.soft.javaluator.StaticVariableSet;
 import java.math.BigInteger;
-// import java.util.Scanner;
-
 /**
- * Hello world!
  *
+ * @author abw04
  */
-public class App2
-{
-    public static void main( String[] args )
-    {   
-        String expression = "e^x";
-        System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
-        binom_dist b = new binom_dist(20,.5);
-        System.out.println("probability of 2 successes in 20 trials: " + binom_dist.npickk(20,2));
-        System.out.println("binom pmf k = 10: " + b.pmf(10));
-        System.out.println("binom cdf k <= 10: " + b.cdf(10));
-        System.out.println("norm pdf mu = 0, sigma = 1, x = 10: " + normpdf(10, 0, 1));
-        System.out.println("normcdf(0,0,1): " + normcdf(100,0,1));
-        System.out.println("normcdf(2,0,1): " + (normcdf(2, .5, 1.)));
-
-        DoubleEvaluator e = new DoubleEvaluator();
-        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-        double mu = 0;
-        double sigma = 1;
-        String norm = "e^((-(x-0)^2)/(2 * 1^2))";
-
-        variables.set("x", 0.);
-
-        System.out.println(e.evaluate(norm, variables));
-        
-      
-    }
-    
-    static double sum(double[] arr){
+public class Simpsons {
+    public static double sum(double[] arr){
         double sum = 0;
         for (double i:arr)
             sum +=i;
         return sum;
     }
     
-    static void print(double[] arr){
+    public static void print(double[] arr){
         for (double i:arr){
             System.out.print(" " + i);
         }
         System.out.println();
     }
     
-    static void print(int[] arr){
+    public static void print(int[] arr){
         for (int i:arr){
             System.out.print(" " + i);
         }
         System.out.println();
     }
     
-    static int[] makeCoeff(int n) throws InvalidNException{
-        if (n % 2 == 0) {
+    public static int[] makeCoeff(int n) throws InvalidNException{
+        try {
+            if (n % 2 == 0) {
             int[] coeff = new int[n];
             coeff[0] = 1;
             coeff[n-1] = 1;
@@ -70,13 +47,18 @@ public class App2
             }
             
             return coeff;
-        } else  {
-            throw new InvalidNException("N must be an even number");
+            } else  {
+                throw new InvalidNException("N Must be an Even Number");
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidNException("N Must Be an Integer");
         }
+        
+        
         //simpson's approximation
     }
     
-    static double simpsons(String expr, double lower, double upper, int n) throws InvalidNException{
+    public static double simpsons(String expr, double lower, double upper, int n) throws InvalidNException{
         try {
             int[] coeff = makeCoeff(n);
             double[] xVals = linspace(lower,upper,n+1);
@@ -104,7 +86,7 @@ public class App2
         }
     }
     
-    static double[] linspace(double a,double b,int n){
+    public static double[] linspace(double a,double b,int n){
         double[] arr = new double[n];
         arr[0] = a;
         arr[n-1] = b;
@@ -112,6 +94,12 @@ public class App2
             arr[i] = arr[i-1]+(b-a)/(n-1);
             
         return arr;
+    }
+    
+    public static class InvalidNException extends RuntimeException {
+        InvalidNException(String message) {
+        super(message);
+        }
     }
     
     static BigInteger fac(BigInteger n){
@@ -122,23 +110,17 @@ public class App2
         return Factorial.bang(n);
     }
     
-    private static class InvalidNException extends RuntimeException {
-        InvalidNException(String message) {
-        super(message);
-        }
-    }
-    
-    static double normpdf(double x, double mu, double sigma){
+    public static double normpdf(double x, double mu, double sigma){
         return (1/((sigma*Math.sqrt(2*Math.PI)))*Math.exp(-Math.pow(x-mu, 2)/(2*Math.pow(sigma,2))));
     }
 
-    static double normcdf(double x, double mu, double sigma){
+    public static double normcdf(double x, double mu, double sigma){
         // return erf(x/(Math.pow(2,.5)*sigma)-mu/(Math.pow(2,.5)*sigma))/2 + .5;
         // return ((erf(x/Math.sqrt(2)))/2 + .5);
         return erf((x-mu)/(Math.sqrt(2)*sigma))/2 + .5;
     }
     
-    static double erf(double x){
+    public static double erf(double x){
         return 2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)", 0, x,1000000);
     }
         
@@ -209,14 +191,4 @@ public class App2
             return n*p*(1-p);
         }
     }
-    
-    
-    
-        
-//        if (n<=0)
-//            throw new IllegalArgumentException("n must be greater than 0");
-//        if (p<0||p>1)
-//            throw new IllegalArgumentException("p must be between 1 and 0");
-        
-//        return n*p;
 }

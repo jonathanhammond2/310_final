@@ -11,27 +11,34 @@ import java.math.BigInteger;
  */
 public class App 
 {
+    public static final int maxN = 1000000;
     public static void main( String[] args )
     {   
-        String expression = "e^x";
-        System.out.println("simp's approx: " + simpsons(expression, 0, 4, 100000));
-        binom_dist b = new binom_dist(20,.5);
-        System.out.println("probability of 2 successes in 20 trials: " + binom_dist.npickk(20,2));
-        System.out.println("binom pmf k = 10: " + b.pmf(10));
-        System.out.println("binom cdf k <= 10: " + b.cdf(10));
-        System.out.println("norm pdf mu = 0, sigma = 1, x = 10: " + normpdf(10, 0, 1));
-        System.out.println("normcdf(0,0,1): " + normcdf(100,0,1));
-        System.out.println("normcdf(2,0,1): " + (normcdf(2, .5, 1.)));
+        // String expression = "e^x";
+        // System.out.println("simp's approx: " + simpsons(expression, 0, 4, maxN));
+        // binom_dist b = new binom_dist(20,.5);
+        // System.out.println("probability of 2 successes in 20 trials: " + binom_dist.npickk(20,2));
+        // System.out.println("binom pmf k = 10: " + b.pmf(10));
+        // System.out.println("binom cdf k <= 10: " + b.cdf(10));
+        // System.out.println("norm pdf mu = 0, sigma = 1, x = 10: " + normpdf(10, 0, 1));
+        // System.out.println("normcdf(2,.5,1): " + (normcdf(2, .5, 1.)));
+        // System.out.println("gamma(50): " + gamma(50));
+        // System.out.println("tpdf(1,10): " + tpdf(1.,10));
+        System.out.println("tcdf(1,30): " + tcdf(.5,30));
+        double num = 2.5;
+        // System.out.println("gamma("+num+"): " + gamma(num));
+        // System.out.println("Beta(2,.5): " + Beta(2,.5));
+        double x_t = 10/11.;
+        // System.out.println("incompBeta(.4,1,3): " + (1-.5*incompBeta(x_t, 5., .5)));
+        // System.out.println("incompBeta(.4,1,3,): " + incompBeta(.4545, 5, .5));
 
-        DoubleEvaluator e = new DoubleEvaluator();
-        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
-        double mu = 0;
-        double sigma = 1;
-        String norm = "e^((-(x-0)^2)/(2 * 1^2))";
+        // DoubleEvaluator e = new DoubleEvaluator();
+        // StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
+        // String norm = "e^((-(x-0)^2)/(2 * 1^2))";
 
-        variables.set("x", 0.);
+        // variables.set("x", 0.);
 
-        System.out.println(e.evaluate(norm, variables));
+        // System.out.println(e.evaluate(norm, variables));
         
       
     }
@@ -139,7 +146,34 @@ public class App
     }
     
     static double erf(double x){
-        return 2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)", 0, x,1000000);
+        return 2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)", 0, x,maxN);
+    }
+
+    static double gamma(double z){
+        // return simpsons("x^(" + (z-1.) + ")*e^(-x)", 0., 1000000000., 1000000);
+        double result = 1.;
+        for(double n = 1.; n<10000000; n++){   
+            result *=Math.pow((1.+1./n),z)/(1+z/n);
+        }
+        return (1/z)*result;
+    }
+
+    static double tpdf(double t, int v){
+        return gamma((v+1)/2.) / (Math.sqrt(v*Math.PI)*gamma(v/2.)) * Math.pow((1+Math.pow(t,2)/v),-(v+1)/2.);
+    }
+
+    static double tcdf(double t, int v){
+        String expr = "(1/" + (Math.sqrt(v)*Beta(.5, v/2.)) + ")*(1+(x^2)/" + v + ")^("+(-(v+1)/2.)+")";
+        return simpsons(expr,-100.,t,maxN);
+    }
+
+    static double Beta(double a, double b){
+        // return simpsons("(x^(" + (a-1.) + "))*((1-x)^(" + (b-1.) + "))", 0., 1., 10);
+        return ((gamma(a)*gamma(b))/gamma(a+b));
+    }
+
+    static double incompBeta(double x, double a, double b){
+        return simpsons("(x^(" + (a-1) + "))*((1-x)^(" + (b-1.)+"))",0,x,maxN);
     }
         
     private static class binom_dist{

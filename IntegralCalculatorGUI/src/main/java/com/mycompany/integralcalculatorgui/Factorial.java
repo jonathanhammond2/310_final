@@ -1,7 +1,14 @@
-package com.mycompany.linetest2;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.integralcalculatorgui;
 
 import java.math.BigInteger;
-
+/**
+ *
+ * @author abw04
+ */
 public class Factorial {
     public static long bang(long n) throws ArithmeticException, IllegalArgumentException{  // long can be bigger (integers stored in 64 bits as opposed to 32 bit ints)
         if (n<0)

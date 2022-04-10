@@ -4,3 +4,6 @@
 # Ignore Gradle build output directory
 build
 /inttest/target/
+/LineChartSampleEx/target/
+/lineTest2/target/
+/IntegralCalculatorGUI/target/
