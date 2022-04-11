@@ -10,6 +10,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Pane;
 
 public class graphPane extends Pane{
+    
     static int maxN = 100000; //100000
     int maxDN = 10000;
 
@@ -21,6 +22,7 @@ public class graphPane extends Pane{
     AreaChart<Number,Number> areaChart = new AreaChart<Number,Number>(X,Y);    
     double intResult;
     graphPane(String e, double lower, double upper, int n){
+        // setStyle("-fx-background-color: darkgrey; -fx-text-fill: while");
         if (n%2!=0)
             n = 10000;
         areaChart.setCreateSymbols(false);
@@ -30,6 +32,7 @@ public class graphPane extends Pane{
         // graphFunc("(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)", upper, lower, n);
         areaChart.getData().add(funcSeries);
         areaChart.getData().add(graphFunc);
+        // areaChart.setStyle("-fx-background-color: darkgrey; -fx-foreground-color: darkgrey; -fx-text-fill: white");
         getChildren().add(areaChart);
     }
     graphPane(){
