@@ -127,6 +127,8 @@ public class ProbabilityTab extends Tab{
                         i++;
         }
 
+        gPane.clearData();
+
         if ((input.charAt(0) =='b') && (input.charAt(1)=='p')){
             return (math_functions.binom_dist.pmf((int) in[0], (int) in[1],in[2]));
         }
@@ -137,7 +139,8 @@ public class ProbabilityTab extends Tab{
             return (math_functions.normpdf((int) in[0], (int) in[1],in[2]));
         }
         else if ((input.charAt(0) =='n') && (input.charAt(4)=='c')){
-            return (math_functions.normcdf((int) in[0], (int) in[1],in[2]));
+            // return (math_functions.normcdf((int) in[0], (int) in[1],in[2]));
+            return gPane.updateNormCDF((int) in[0], (int) in[1], in[2]);
         }
         else if ((input.charAt(0) =='e') && (input.charAt(2)=='f')){
             // return math_functions.erf(in[0]);

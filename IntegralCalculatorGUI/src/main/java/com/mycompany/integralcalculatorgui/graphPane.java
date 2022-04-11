@@ -4,60 +4,69 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.fathzer.soft.javaluator.StaticVariableSet;
 
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Pane;
 
 public class graphPane extends Pane{
-    int maxN = 100000; //100000
+    static int maxN = 100000; //100000
     int maxDN = 1000;
+
     int winX = 10;
-    final NumberAxis X = new NumberAxis();
-    final NumberAxis Y = new NumberAxis();
+    NumberAxis X = new NumberAxis();
+    NumberAxis Y = new NumberAxis();
     XYChart.Series funcSeries = new XYChart.Series();
+    XYChart.Series graphFunc = new XYChart.Series(); 
     AreaChart<Number,Number> areaChart = new AreaChart<Number,Number>(X,Y);    
     double intResult;
     graphPane(String e, double lower, double upper, int n){
         if (n%2!=0)
             n = 10000;
-        // areaChart.setTitle("Graph");
         areaChart.setCreateSymbols(false);
         this.intResult = simpsonsData(e, lower, upper, n);
-        // this.intResult = BetaData(.5, .5);
+        double sigma = 1;
+        double mu = 0;
+        // graphFunc("(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)", upper, lower, n);
         areaChart.getData().add(funcSeries);
+        areaChart.getData().add(graphFunc);
         getChildren().add(areaChart);
     }
     graphPane(){
         areaChart.setCreateSymbols(false);
+        // double sigma = 1;
+        // double mu = 0;
+        // graphFunc("(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)", -5, 5, 100);
+        areaChart.getData().add(funcSeries);
+        areaChart.getData().add(graphFunc);
         getChildren().add(areaChart);
     }
 
     double updateIntegral(String e, double lower, double upper, int n){
-        areaChart.getData().removeAll(funcSeries);
-        funcSeries = new XYChart.Series();
+        // areaChart.getData().removeAll(funcSeries);
+        // funcSeries = new XYChart.Series();
+        X.setAutoRanging(true);
+        funcSeries.getData().clear();
         intResult = simpsonsData(e, lower, upper, n);
-        areaChart.getData().addAll(funcSeries);
+        // areaChart.getData().addAll(funcSeries);
         return intResult;
     }
 
     double updateBeta(double a, double b){
-        areaChart.getData().removeAll(funcSeries);
-        funcSeries = new XYChart.Series();
-
-        // a = a-1.;
-        // b = b-1.;
-        // String expr = "x^("+a+")*(1-x)^("+b+")";
-        // System.out.println(expr);
-        // intResult =  simpsonsData(expr, 0, 1, 100);
-
+        // areaChart.getData().removeAll(funcSeries);
+        // funcSeries = new XYChart.Series();
+        X.setAutoRanging(true);
+        funcSeries.getData().clear();
         intResult = BetaData(a, b);
-        areaChart.getData().addAll(funcSeries);
+        // areaChart.getData().addAll(funcSeries);
         return intResult;
     }
 
     double updateErf(double x){
-        areaChart.getData().removeAll(funcSeries);
-        funcSeries = new XYChart.Series();
+        // areaChart.getData().removeAll(funcSeries);
+        // funcSeries = new XYChart.Series();
+        X.setAutoRanging(true);
+        funcSeries.getData().clear();
 
         intResult = erfData(x);
 
@@ -65,25 +74,34 @@ public class graphPane extends Pane{
         return intResult;
     }
 
-    // double updateBeta(double a, double b){
-    //     areaChart.getData().removeAll(funcSeries);
-    //     funcSeries = new XYChart.Series();
-    //     intResult = BetaData(a, b);
-    //     areaChart.getData().addAll(funcSeries);
-    //     return intResult;
-    // }
+    double updateNormCDF(double x, double mu, double sigma){
+        // areaChart.getData().removeAll(funcSeries);
+        // funcSeries.
+        // funcSeries = new XYChart.Series();
+        X.setAutoRanging(false);
+        funcSeries.getData().clear();
 
-    AreaChart makeGraph(String expr){
-        final NumberAxis X = new NumberAxis();
-        final NumberAxis Y = new NumberAxis();
-        X.setLabel("X");
-        AreaChart<Number,Number> lineChart = 
-                new AreaChart<Number,Number>(X,Y);
-       
-        lineChart.setTitle("Graph");
-        lineChart.setCreateSymbols(false);
-        lineChart.getData().add(funcSeries);
-        return lineChart;
+        normcdfData(x, mu, sigma);
+        // areaChart.getData().addAll(funcSeries);
+
+        graphNormCDF(x, mu, sigma);
+        
+
+        return math_functions.normcdf(x, mu, sigma);
+    }
+    
+    void normcdfData(double x, double mu, double sigma){//e^(-.5 * ((x-mu)/sigma)^2
+        String norm = "(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)";
+        simpsonsData(norm, mu-5.5*sigma, x, maxDN);
+    }
+
+    void graphNormCDF(double x, double mu, double sigma){
+        double upper = mu+5*sigma;
+        double lower = mu-5.5*sigma;
+        X.setAutoRanging(false);
+        X.setUpperBound(mu+5*sigma);
+        X.setLowerBound(mu-5*sigma);
+        graphFunc("(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)", upper, lower, maxDN);
     }
 
     double erfData(double x){//2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)
@@ -103,10 +121,30 @@ public class graphPane extends Pane{
     }
 
     void graphFunc(String expr, double upper, double lower, int n){
+        X.setAutoRanging(false);
+        // areaChart.getData().removeAll(graphFunc);
+        graphFunc.getData().clear();
+        // graphFunc = new XYChart.Series();
         if (n%2!=0)
             n = n-1;
-        double[] xVals = math_functions.linspace(a, b, n)
+
+        DoubleEvaluator ev = new DoubleEvaluator();
+        StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
+        double[] xVals = math_functions.linspace(lower, upper, n);
+        double f_x;
+        for (int i = 0; i<n; i++){
+            variables.set("x", xVals[i]);
+            f_x = ev.evaluate(expr, variables);
+            graphFunc.getData().add(new XYChart.Data(xVals[i],f_x));
+        }
+        
+        // areaChart.getData().addAll(graphFunc);
+        // X.setLowerBound(-100);
+        // X.setMaxHeight(1000);
+        // X.setUpperBound(100);
+        
     }
+
     
     double simpsonsData(String expr, double lower, double upper, int n) throws InvalidNException{
         // XYChart.Series series = new XYChart.Series<>();
@@ -116,7 +154,7 @@ public class graphPane extends Pane{
             
 //            print(xVals);
 //            print(coeff);
-//            
+
             double dx = (upper - lower) / n;            
             
             
@@ -143,6 +181,13 @@ public class graphPane extends Pane{
             System.err.println(e.getMessage());
             throw e;
         }
+    }
+
+    public void clearData(){
+        // areaChart.getData().removeAll(funcSeries);
+        // areaChart.getData().removeAll(graphFunc);
+        // funcSeries.getData().clear();
+        // graphFunc.getData().clear();
     }
 
     private static class InvalidNException extends RuntimeException {

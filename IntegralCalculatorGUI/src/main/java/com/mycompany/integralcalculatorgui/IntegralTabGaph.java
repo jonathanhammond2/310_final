@@ -53,7 +53,6 @@ public class IntegralTabGaph extends Tab{
         illegalBoundLabel = new Label();
         illegalVarLabel = new Label();
         graphPane = new graphPane("x^2",-10,10,100);
-        
         //the tab will consist of a BorderPane
         //with other layouts layered over top
         tabContent = new BorderPane();

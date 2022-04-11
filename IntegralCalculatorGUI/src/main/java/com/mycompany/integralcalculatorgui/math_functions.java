@@ -109,6 +109,11 @@ public class math_functions {
         // return ((erf(x/Math.sqrt(2)))/2 + .5);
         return erf((x-mu)/(Math.sqrt(2)*sigma))/2 + .5;
     }
+
+    static double normcdf2(double x, double mu, double sigma){//e^(-.5 * ((x-mu)/sigma)^2
+        String s = "(1/(" + sigma * Math.sqrt(2*Math.PI) + "))*e^(-.5 * ((x-" + mu + ")/" + sigma + ")^2)";
+        return simpsons(s, -10000, x, maxN);
+    }
     
     static double erf(double x){
         return 2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)", 0, x,maxN);
