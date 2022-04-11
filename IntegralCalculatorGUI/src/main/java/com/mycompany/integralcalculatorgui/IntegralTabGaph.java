@@ -68,29 +68,29 @@ public class IntegralTabGaph extends Tab{
         centerPane = new GridPane();
         expressionLabel = new Label("f(x) = ");
         
-        expressionField = new TextField("Enter a function of 'x'");
+        expressionField = new TextField("x^2");
         
         centerPane.add(expressionLabel, 0, 0);
         centerPane.add(expressionField, 1, 0);
         centerPane.add(illegalVarLabel, 2, 0);
         
         lowerLabel = new Label("Lower Limit of Integration: ");
-        lowerField = new TextField("Enter an Integer");
+        lowerField = new TextField("-10");
         centerPane.add(lowerLabel, 0, 1);
         centerPane.add(lowerField, 1, 1);
         
         upperLabel = new Label("Upper Limit of Integration: ");
-        upperField = new TextField("Enter an Integer");
+        upperField = new TextField("10");
         centerPane.add(upperLabel, 0, 2);
         centerPane.add(upperField, 1, 2);
         centerPane.add(illegalBoundLabel, 2, 2);
         
-        nLabel = new Label("Enter an 'n' Value (Higher n = More Accuracy): ");
-        nField = new TextField("Enter an Even Integer");
+        nLabel = new Label("Enter an even 'n' Value (Higher n = More Accuracy): ");
+        nField = new TextField("1000");
         centerPane.add(nLabel, 0, 3);
         centerPane.add(nField, 1, 3);
         centerPane.add(nErrorLabel, 2, 3);
-        centerPane.add(graphPane,2,2);
+        centerPane.add(graphPane,0,4);
         
         
         tabContent.setCenter(centerPane);
@@ -114,10 +114,12 @@ public class IntegralTabGaph extends Tab{
         
         try {
             String expr = expressionField.getText();
-            double lower = Double.parseDouble(lowerField.getText());
-            double upper = Double.parseDouble(upperField.getText());
+            // double lower = Double.parseDouble(lowerField.getText());
+            // double upper = Double.parseDouble(upperField.getText());
+            double lower = parseIntLimit(lowerField.getText());
+            double upper = parseIntLimit(upperField.getText());
             int n = Integer.parseInt(nField.getText());
-            double answer = graphPane.updateGraph(expr, lower, upper);
+            double answer = graphPane.updateIntegral(expr, lower, upper,n);
             answerLabel.setText("" + answer);
             bottomBox.getChildren().add(answerLabel);
         } catch (Simpsons.InvalidNException exc) {
@@ -127,5 +129,13 @@ public class IntegralTabGaph extends Tab{
         } catch (IllegalArgumentException exc) {
             illegalVarLabel.setText("Only Use 'x' as a Variable");
         }
+    }
+
+    private double parseIntLimit(String s) throws NumberFormatException{
+        if (s.equals("pi"))
+            return Math.PI;
+        else if (s.equals("e"))
+            return Math.E;
+        else return Double.parseDouble(s);
     }
 }

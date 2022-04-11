@@ -133,8 +133,13 @@ public class math_functions {
     }
 
     static double Beta(double a, double b){
-        // return simpsons("(x^(" + (a-1.) + "))*((1-x)^(" + (b-1.) + "))", 0., 1., 10);
-        return ((gamma(a)*gamma(b))/gamma(a+b));
+        a = a-1.;
+        b = b-1.;
+        String expr = "x^("+a+")*(1-x)^("+b+")";
+        System.out.println(expr);
+        return simpsons(expr, 0, 1, 10000);
+        // return simpsons("(x^(" + a + "))*((1-x)^(" + b + "))", 0., 1., 100);
+        // return ((gamma(a)*gamma(b))/gamma(a+b));
     }
 
     static double incompBeta(double x, double a, double b){

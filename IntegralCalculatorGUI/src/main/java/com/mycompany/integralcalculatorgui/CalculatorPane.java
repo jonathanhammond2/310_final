@@ -20,11 +20,12 @@ public class CalculatorPane extends TabPane{
     
     public CalculatorPane() {
         intTab = new IntegralTab("Integral");
-        normTab = new NormalTab("Normal Distro");
-        biTab = new BinomialTab("Binomial Distro");
+        // normTab = new NormalTab("Normal Distro");
+        // biTab = new BinomialTab("Binomial Distro");
         probTab = new ProbabilityTab("Probability");
         intGraphTab = new IntegralTabGaph("Graph");
 
-        getTabs().addAll(intTab, normTab, biTab, probTab, intGraphTab);
+        // getTabs().addAll(intTab, normTab, biTab, probTab, intGraphTab);
+        getTabs().addAll(intTab, probTab, intGraphTab);
     }
 }

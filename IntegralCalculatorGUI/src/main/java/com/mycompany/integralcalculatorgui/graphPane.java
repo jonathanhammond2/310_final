@@ -9,36 +9,54 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Pane;
 
 public class graphPane extends Pane{
-    static final int maxN = 100; //100000
-    static final int winX = 10;
+    int maxN = 100000; //100000
+    int winX = 10;
     final NumberAxis X = new NumberAxis();
     final NumberAxis Y = new NumberAxis();
     XYChart.Series funcSeries = new XYChart.Series();
     AreaChart<Number,Number> areaChart = new AreaChart<Number,Number>(X,Y);    
-    String expr;
-    double lower, upper, intResult;
-
+    double intResult;
     graphPane(String e, double lower, double upper, int n){
-        this.expr = e;
-        this.lower = lower;
-        this.upper = upper;
-        areaChart.setTitle("Graph");
+        if (n%2!=0)
+            n = 10000;
+        // areaChart.setTitle("Graph");
         areaChart.setCreateSymbols(false);
-        intResult = simpsonsData(expr, lower, upper, maxN);
+        // this.intResult = simpsonsData(e, lower, upper, n);
+        this.intResult = BetaData(.5, .5);
         areaChart.getData().add(funcSeries);
         getChildren().add(areaChart);
     }
 
-    double updateGraph(String e, double lower, double upper){
-        // this.expr = e;
-        // this.lower = lower;
-        // this.upper = upper;
+    double updateIntegral(String e, double lower, double upper, int n){
         areaChart.getData().removeAll(funcSeries);
         funcSeries = new XYChart.Series();
-        intResult = simpsonsData(e, lower, upper, maxN);
+        intResult = simpsonsData(e, lower, upper, n);
         areaChart.getData().addAll(funcSeries);
         return intResult;
     }
+
+    double updateBeta(double a, double b){
+        areaChart.getData().removeAll(funcSeries);
+        funcSeries = new XYChart.Series();
+
+        a = a-1.;
+        b = b-1.;
+        String expr = "x^("+a+")*(1-x)^("+b+")";
+        System.out.println(expr);
+        intResult =  simpsonsData(expr, 0, 1, 100);
+
+        // intResult = BetaData(lower, upper);
+        areaChart.getData().addAll(funcSeries);
+        return intResult;
+    }
+
+    // double updateBeta(double a, double b){
+    //     areaChart.getData().removeAll(funcSeries);
+    //     funcSeries = new XYChart.Series();
+    //     intResult = BetaData(a, b);
+    //     areaChart.getData().addAll(funcSeries);
+    //     return intResult;
+    // }
 
     AreaChart makeGraph(String expr){
         final NumberAxis X = new NumberAxis();
@@ -50,9 +68,17 @@ public class graphPane extends Pane{
         lineChart.setTitle("Graph");
         lineChart.setCreateSymbols(false);
         lineChart.getData().add(funcSeries);
-        // System.out.println("int of " + expr + " from 0 to 10 is: " + simpsonsData(expr, -10, 10, 1000));
-
         return lineChart;
+    }
+
+    double BetaData(double a, double b){
+        a = a-1.;
+        b = b-1.;
+        String expr = "x^("+a+")*(1-x)^("+b+")";
+        System.out.println(expr);
+        return simpsonsData(expr, 0, 1, 100);
+        // return simpsons("(x^(" + a + "))*((1-x)^(" + b + "))", 0., 1., 100);
+        // return ((gamma(a)*gamma(b))/gamma(a+b));
     }
     
     double simpsonsData(String expr, double lower, double upper, int n) throws InvalidNException{
