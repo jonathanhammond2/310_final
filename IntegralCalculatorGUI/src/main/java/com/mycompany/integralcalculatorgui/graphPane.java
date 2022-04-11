@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 
 public class graphPane extends Pane{
     int maxN = 100000; //100000
+    int maxDN = 1000;
     int winX = 10;
     final NumberAxis X = new NumberAxis();
     final NumberAxis Y = new NumberAxis();
@@ -21,9 +22,13 @@ public class graphPane extends Pane{
             n = 10000;
         // areaChart.setTitle("Graph");
         areaChart.setCreateSymbols(false);
-        // this.intResult = simpsonsData(e, lower, upper, n);
-        this.intResult = BetaData(.5, .5);
+        this.intResult = simpsonsData(e, lower, upper, n);
+        // this.intResult = BetaData(.5, .5);
         areaChart.getData().add(funcSeries);
+        getChildren().add(areaChart);
+    }
+    graphPane(){
+        areaChart.setCreateSymbols(false);
         getChildren().add(areaChart);
     }
 
@@ -39,13 +44,23 @@ public class graphPane extends Pane{
         areaChart.getData().removeAll(funcSeries);
         funcSeries = new XYChart.Series();
 
-        a = a-1.;
-        b = b-1.;
-        String expr = "x^("+a+")*(1-x)^("+b+")";
-        System.out.println(expr);
-        intResult =  simpsonsData(expr, 0, 1, 100);
+        // a = a-1.;
+        // b = b-1.;
+        // String expr = "x^("+a+")*(1-x)^("+b+")";
+        // System.out.println(expr);
+        // intResult =  simpsonsData(expr, 0, 1, 100);
 
-        // intResult = BetaData(lower, upper);
+        intResult = BetaData(a, b);
+        areaChart.getData().addAll(funcSeries);
+        return intResult;
+    }
+
+    double updateErf(double x){
+        areaChart.getData().removeAll(funcSeries);
+        funcSeries = new XYChart.Series();
+
+        intResult = erfData(x);
+
         areaChart.getData().addAll(funcSeries);
         return intResult;
     }
@@ -71,14 +86,26 @@ public class graphPane extends Pane{
         return lineChart;
     }
 
+    double erfData(double x){//2/Math.sqrt(Math.PI) * simpsons("e^(-x^2)
+        String expr = "2/(pi^.5) * e^(-x^2)";
+        return simpsonsData(expr, 0, x, maxDN);
+    }
+
+
     double BetaData(double a, double b){
         a = a-1.;
         b = b-1.;
         String expr = "x^("+a+")*(1-x)^("+b+")";
-        System.out.println(expr);
-        return simpsonsData(expr, 0, 1, 100);
+        // System.out.println(expr);
+        return simpsonsData(expr, 0, 1, maxDN);
         // return simpsons("(x^(" + a + "))*((1-x)^(" + b + "))", 0., 1., 100);
         // return ((gamma(a)*gamma(b))/gamma(a+b));
+    }
+
+    void graphFunc(String expr, double upper, double lower, int n){
+        if (n%2!=0)
+            n = n-1;
+        double[] xVals = math_functions.linspace(a, b, n)
     }
     
     double simpsonsData(String expr, double lower, double upper, int n) throws InvalidNException{
@@ -104,10 +131,10 @@ public class graphPane extends Pane{
                 // if (Math.abs(f_x*dx)<winX){
                 //     intSeries.getData().add(new XYChart.Data(xVals[i],f_x*dx));
                 // }
-                if (Math.abs(f_x)<winX){
+                // if (Math.abs(f_x)<winX){
                     funcSeries.getData().add(new XYChart.Data(xVals[i],f_x));
                     // System.out.println(f_x);
-                }
+                // }
                    
                 sum+= f_x*coeff[i]*dx/3.;;
             }
