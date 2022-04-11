@@ -128,6 +128,14 @@ public class math_functions {
         return (1/z)*result;
     }
 
+    // static double gamma2(double z){
+    //     // String expr = 
+    //     // return simpsons("x^(" + (z-1.) + ")*e^(-x)", 0., 1000000000., 1000000);
+    //     return simpsons("x!", 0., 10., 1000);
+    // }
+
+    
+
     static double tpdf(double t, int v){
         return gamma((v+1)/2.) / (Math.sqrt(v*Math.PI)*gamma(v/2.)) * Math.pow((1+Math.pow(t,2)/v),-(v+1)/2.);
     }

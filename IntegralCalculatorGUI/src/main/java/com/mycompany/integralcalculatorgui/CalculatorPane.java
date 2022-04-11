@@ -19,13 +19,13 @@ public class CalculatorPane extends TabPane{
     private IntegralTabGaph intGraphTab;
     
     public CalculatorPane() {
-        intTab = new IntegralTab("Integral");
+        // intTab = new IntegralTab("Integral");
         // normTab = new NormalTab("Normal Distro");
         // biTab = new BinomialTab("Binomial Distro");
+        intGraphTab = new IntegralTabGaph("Integration");
         probTab = new ProbabilityTab("Probability");
-        intGraphTab = new IntegralTabGaph("Graph");
 
         // getTabs().addAll(intTab, normTab, biTab, probTab, intGraphTab);
-        getTabs().addAll(intTab, probTab, intGraphTab);
+        getTabs().addAll(intGraphTab, probTab);
     }
 }

@@ -47,6 +47,7 @@ public class IntegralTabGaph extends Tab{
     
     public IntegralTabGaph(String title) {
         super(title);
+        setClosable(false);
         
         //error handling
         nErrorLabel = new Label();
@@ -58,8 +59,8 @@ public class IntegralTabGaph extends Tab{
         tabContent = new BorderPane();
         
         //title of the tab in the top
-        titleLabel = new Label("Calculate an Integral");
-        tabContent.setTop(titleLabel);
+        // titleLabel = new Label("Calculate an Integral");
+        
         
         
         //center will consist of a GridPane
@@ -89,15 +90,17 @@ public class IntegralTabGaph extends Tab{
         centerPane.add(nLabel, 0, 3);
         centerPane.add(nField, 1, 3);
         centerPane.add(nErrorLabel, 2, 3);
-        centerPane.add(graphPane,0,4);
+        centerPane.add(graphPane,0,5);
         
         
-        tabContent.setCenter(centerPane);
+        tabContent.setCenter(graphPane);
+        tabContent.setTop(centerPane);
         
         //The bottom of the borderpane will consist of the button
         //to calculate and the Label where the answer will be displayed
         calcButton = new Button("Approximate Integral");
         calcButton.setOnAction(this::processCalcButton);
+        // upperField.setOnAction(this::processCalcButton);
         answerLabel = new Label();
         bottomBox = new HBox();
         bottomBox.getChildren().add(calcButton);
@@ -113,8 +116,6 @@ public class IntegralTabGaph extends Tab{
         
         try {
             String expr = expressionField.getText();
-            // double lower = Double.parseDouble(lowerField.getText());
-            // double upper = Double.parseDouble(upperField.getText());
             double lower = parseIntLimit(lowerField.getText());
             double upper = parseIntLimit(upperField.getText());
             int n = Integer.parseInt(nField.getText());

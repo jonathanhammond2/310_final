@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 
 public class graphPane extends Pane{
     static int maxN = 100000; //100000
-    int maxDN = 1000;
+    int maxDN = 10000;
 
     int winX = 10;
     NumberAxis X = new NumberAxis();
@@ -120,6 +120,10 @@ public class graphPane extends Pane{
         // return ((gamma(a)*gamma(b))/gamma(a+b));
     }
 
+    // double gammaData(double z){
+
+    // }
+
     void graphFunc(String expr, double upper, double lower, int n){
         X.setAutoRanging(false);
         // areaChart.getData().removeAll(graphFunc);
@@ -183,13 +187,7 @@ public class graphPane extends Pane{
         }
     }
 
-    public void clearData(){
-        // areaChart.getData().removeAll(funcSeries);
-        // areaChart.getData().removeAll(graphFunc);
-        // funcSeries.getData().clear();
-        // graphFunc.getData().clear();
-    }
-
+   
     private static class InvalidNException extends RuntimeException {
         InvalidNException(String message) {
         super(message);

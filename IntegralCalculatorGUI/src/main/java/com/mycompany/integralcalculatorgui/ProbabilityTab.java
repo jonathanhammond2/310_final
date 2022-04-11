@@ -43,6 +43,7 @@ public class ProbabilityTab extends Tab{
     
     public ProbabilityTab(String title) {
         super(title);
+        setClosable(false);
         
         gPane = new graphPane();
         tabContent = new BorderPane();
@@ -78,7 +79,8 @@ public class ProbabilityTab extends Tab{
         bottomBox = new HBox();
         calcButton = new Button("Calculate Probability");
         calcButton.setOnAction(this::processCalcButton);
-        answerLabel = new Label();
+        inputField.setOnAction(this::processCalcButton);
+        answerLabel = new Label("Type 'help'");
         bottomBox.getChildren().addAll(calcButton, answerLabel);
         tabContent.setBottom(bottomBox);
         setContent(tabContent);
@@ -86,8 +88,16 @@ public class ProbabilityTab extends Tab{
     
     private void processCalcButton(ActionEvent e) {
         String input = inputField.getText();
-        String helpText = "rocks";
-        if (input.toLowerCase()=="help"){
+        String helpText = 
+        "Normal Dist: normpdf(x, mu, sigma), normcdf(x, mu, sigma)\n"
+         + "T-distribution: tpf(t, df v), tcdf(t, df v)\n"
+         + "Binom Dist: bpmf(n, k, p), bcdf(n, k, p)\n"
+         + "Beta Dist: beta(a, b)\n"
+         + "Gamma Dist: gamma(z)\n"
+         + "Error Func: erf(x)\n";
+
+
+        if (input.toLowerCase().equals("help")){
             answerLabel.setText(helpText);
         }
         else{
@@ -126,8 +136,6 @@ public class ProbabilityTab extends Tab{
             prevIndex = nextIndex;
                         i++;
         }
-
-        gPane.clearData();
 
         if ((input.charAt(0) =='b') && (input.charAt(1)=='p')){
             return (math_functions.binom_dist.pmf((int) in[0], (int) in[1],in[2]));

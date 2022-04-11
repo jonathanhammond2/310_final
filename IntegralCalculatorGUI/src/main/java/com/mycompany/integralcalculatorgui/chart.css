@@ -1,6 +1,6 @@
-.default-color0.chart-area-symbol { -fx-background-color: #f33d00da, #ffa07ada; }
-.default-color1.chart-area-symbol { -fx-background-color: #f0e68c, #fffacd; }
-.default-color2.chart-area-symbol { -fx-background-color: #dda0dd, #d8bfd855; }
+.default-color0.chart-area-symbol { -fx-background-color: #f33d0000, #ffa07a00; }
+.default-color1.chart-area-symbol { -fx-background-color: #f0e68c00, #fffacd00; }
+.default-color2.chart-area-symbol { -fx-background-color: #dda0dd00, #d8bfd800; }
  
 .default-color0.chart-series-area-line { -fx-stroke: #f0e68c; }
 .default-color1.chart-series-area-line { -fx-stroke: #f0e68c; }

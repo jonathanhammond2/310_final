@@ -17,7 +17,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         CalculatorPane calcDisplay = new CalculatorPane();
-        Scene scene = new Scene(calcDisplay, 640, 480);
+        Scene scene = new Scene(calcDisplay, 700, 550);
 
         URL url = this.getClass().getResource("chart.css");
         if (url == null) {
