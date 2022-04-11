@@ -119,6 +119,8 @@ public class IntegralTabGaph extends Tab{
             double lower = parseIntLimit(lowerField.getText());
             double upper = parseIntLimit(upperField.getText());
             int n = Integer.parseInt(nField.getText());
+            if (n%2!=0)
+                n = n-1;
             double answer = graphPane.updateIntegral(expr, lower, upper,n);
             answerLabel.setText("" + answer);
             bottomBox.getChildren().add(answerLabel);

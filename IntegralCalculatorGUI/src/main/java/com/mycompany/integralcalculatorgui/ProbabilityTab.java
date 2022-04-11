@@ -27,6 +27,7 @@ public class ProbabilityTab extends Tab{
     private GridPane centerPane;
     private Label inputLabel;
     private TextField inputField;
+    
 
     // private Label sigmaLabel;
     // private TextField sigmaField;
@@ -43,7 +44,7 @@ public class ProbabilityTab extends Tab{
     public ProbabilityTab(String title) {
         super(title);
         
-        gPane = new graphPane("x^2", -10, 10, 100);
+        gPane = new graphPane();
         tabContent = new BorderPane();
         titleLabel = new Label("Probability");
         tabContent.setTop(titleLabel);
@@ -122,7 +123,6 @@ public class ProbabilityTab extends Tab{
             if (nextIndex<0){
                 in[i] = Double.parseDouble(input.substring(prevIndex+1, input.indexOf(")",prevIndex+1)));
             }
-            System.out.println(in[i]);
             prevIndex = nextIndex;
                         i++;
         }
@@ -140,7 +140,8 @@ public class ProbabilityTab extends Tab{
             return (math_functions.normcdf((int) in[0], (int) in[1],in[2]));
         }
         else if ((input.charAt(0) =='e') && (input.charAt(2)=='f')){
-            return math_functions.erf(in[0]);
+            // return math_functions.erf(in[0]);
+            return gPane.updateErf(in[0]);
         }
         else if ((input.charAt(0) =='g') && (input.charAt(3)=='m')){
             return math_functions.gamma(in[0]);
